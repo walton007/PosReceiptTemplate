@@ -1,0 +1,63 @@
+<g>
+	<g id="header-template"  width="576" height="409" font-family="STSongti-SC-Regular" font-size="28px">
+		<text x="288" y="50" text-anchor="middle"   height="90"  font-size="64px">申活馆</text>
+		<text relative='1' deltaY="65" text-anchor="middle" font-size="22px"   height="28">新天地店：马当路245号新天地时尚L202</text>
+		
+		<line x1="0" y1="178" x2="576" y2="178" stroke-dasharray="8,8" style="stroke:#000000; stroke-width:5"/>
+
+		<text x="0" y="221" text-anchor="start"> 店名: </text>
+        <text relative='1' deltaY="33" text-anchor="start"> 时间:</text>
+        <text relative='1' deltaY="33" text-anchor="start"> 店员:</text>
+        <text relative='1' deltaY="33" text-anchor="start"> 客户:</text>
+
+        <text x="564" y="221" text-anchor="end"> {{ctx.channel.name}} </text>
+        <text relative='1' deltaY="33" text-anchor="end"> {{ctx.docDate.toLocaleString()}} </text>
+		<text relative='1' deltaY="33" text-anchor="end" > {{ctx.currentEmployee.displayName}} </text>
+		<text relative='1' deltaY="33" text-anchor="end" >{{var length = 55; length + ctx.customer.displayName}}</text>
+
+		<line x1="0" y1="353" x2="576" y2="353" stroke-dasharray="8,8" style="stroke:#000000;stroke-width:5" />
+
+		<text x="0" y="396" text-anchor="start" > 产品</text>
+        <text relative='1' deltaX="297" text-anchor="start"> 单价</text>
+        <text relative='1' deltaX="109" text-anchor="start"> 数量</text>
+        <text relative='1' deltaX="100" text-anchor="start"> 总价</text>
+	</g>
+
+	<g id="item-template"  width="576" height="var length = 55; length + ((ctx.sku.name.length/20)+2)*33 "  font-family="STSongti-SC-Regular" font-size="28px">
+		<text id="name" x="0" y="25" width="552" text-anchor="start"> {{ctx.sku.name.length > 20 ? ctx.sku.name.substr(0,20) : ctx.sku.name}} </text>
+		<text relative='1' deltaY="33" removeCond="ctx.sku.name.length &lt;= 20"  text-anchor="start"> {{ctx.sku.name.substr(20,20)}} </text>
+		<text relative='1' deltaY="33" removeCond="ctx.sku.name.length &lt;= 2*20"  text-anchor="start"> {{ctx.sku.name.substr(2*20,20)}} </text>
+		<text relative='1' deltaY="33" removeCond="ctx.sku.name.length &lt;= 3*20"  text-anchor="start"> {{ctx.sku.name.substr(3*20,20)}} </text>
+
+		<text id="price" deltaX="351" relative='1' deltaY="40" text-anchor="end" > {{parseFloat(ctx.unitPrice).toFixed(2)}} </text>
+		<text id="quantity" relative='1' deltaX="100"  text-anchor="end" > {{ctx.quantity}} </text>
+		<text id="linetotal" relative='1' deltaX="113"  text-anchor="end"> {{parseFloat(ctx.total).toFixed(2)}} </text> 
+	</g>
+ 
+	<g id="foot-template"  width="576" height="500" font-family="STSongti-SC-Regular" font-size="28px">
+
+		<text title="total" x="288" y="40" text-anchor="start" >应收合计:</text>
+		<text title="cashpay" relative='1' deltaY="33" text-anchor="start">折扣比例:</text>
+		<text title="change" relative='1' deltaY="33"  text-anchor="start">折扣金额:</text>
+		<text title="change" relative='1' deltaY="33"  text-anchor="start">支付方式:</text>
+		<text title="change" relative='1' deltaY="33"  text-anchor="start">应付金额:</text>
+
+		<text id="total" x="564" y="40" text-anchor="end">{{parseFloat(ctx.subTotal).toFixed(2)}}</text>
+		<text id="cash" relative='1' deltaY="33" text-anchor="end">{{parseFloat(ctx.discountPercentage).toFixed(2) +'%'}}</text>
+		<text id="change" relative='1' deltaY="33" text-anchor="end">{{parseFloat(ctx.discountSum).toFixed(2)}}</text> 
+		<text id="change" relative='1' deltaY="33" text-anchor="end">{{ctx.paymentMethod === 'Cash' ? '现金': '银行卡'}}</text>
+		<text id="change" relative='1' deltaY="33" text-anchor="end">{{parseFloat(ctx.docTotal).toFixed(2)}}</text>
+ 
+		<line x1="0" y1="230" x2="576" y2="230" stroke-dasharray="8,8" style="stroke:#000000;stroke-width:5" /> 
+		<text x="280" y="265" text-anchor="middle" >欢迎惠顾</text>
+		<line x1="0" y1="285" x2="576" y2="285" stroke-dasharray="8,8" style="stroke:#000000;stroke-width:5" />
+
+		<text x="0" y="340" text-anchor="start" font-size="19px" >旗舰店：浦东新区樱花路869号A区证大喜马拉雅中心B2层105-111铺 </text>
+		<text relative='1' deltaY="30" text-anchor="start" font-size="19px" >芮欧店：南京西路1601号芮欧百货5F </text>
+		<text relative='1' deltaY="30" text-anchor="start" font-size="19px" >新天地店：马当路245号新天地时尚L202  </text>
+		<text relative='1' deltaY="30" text-anchor="start" font-size="19px" >One hour by申活馆&amp;Little Mee：淮海中路99号大上海时代广场5F </text>
+		
+		<text relative='1' deltaY="30" text-anchor="start" font-size="19px" >吃饱了by申活馆： 马当路245号新天地时尚L221（即将开业）</text>
+		
+	</g>
+</g>
