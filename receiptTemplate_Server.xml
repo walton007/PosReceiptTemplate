@@ -1,0 +1,59 @@
+<g>
+	<g id="header-template"  width="580" height="360" font-size="25px">
+		<text x="280" y="40" text-anchor="middle" font-size="50px">{{ctx.companySetting.companyName}}</text>
+		<text x="280" y="80" text-anchor="middle" font-size="20px"> 店铺地址 </text>
+		<line x1="10" y1="95" x2="540" y2="95" stroke-dasharray="5,5" style="stroke:rgb(0,0,0);stroke-width:2" />
+        <text x="100" y="130" text-anchor="end" > 订单号:</text>
+		<text x="100" y="160" text-anchor="end" > 日期:</text>
+        <text x="100" y="200" text-anchor="end"> 商店:</text>
+        <text x="100" y="240" text-anchor="end"> 客户:</text>
+        <text x="100" y="280" text-anchor="end"> 店员:</text>
+
+        <text x="120" y="130" text-anchor="start"> {{ctx.extOrderId}} </text>
+        <text x="120" y="160" text-anchor="start"> {{ctx.docDate.toLocaleString()}} </text>
+        <text x="120" y="200" text-anchor="start"> {{ctx.channel.name}} </text>
+		<text x="120" y="240" text-anchor="start" >{{ctx.customer.displayName}}</text>
+		<text x="120" y="280" text-anchor="start" >{{ctx.currentEmployee.displayName}}</text>
+
+		<line x1="10" y1="290" x2="540" y2="290" stroke-dasharray="5,5" style="stroke:rgb(0,0,0);stroke-width:2" />
+
+		<text x="30" y="340" text-anchor="start" > 产品</text>
+        <text x="250" y="340" text-anchor="start"> 单价</text>
+        <text x="350" y="340" text-anchor="start"> 数量</text>
+        <text x="450" y="340" text-anchor="start"> 总计</text>
+	</g>
+
+	<g id="item-template"  width="580" height="85" font-size="25px">
+		<text id="name" x="30" y="40" text-anchor="start"> {{ctx.sku.name}} </text>
+		<text id="price" x="250" y="80" text-anchor="start" > {{ctx.unitPrice}} </text>
+		<text id="quantity" x="350" y="80" text-anchor="start" > {{ctx.quantity}} </text>
+		<text id="linetotal" x="450" y="80" text-anchor="start"> {{ctx.total}} </text> 
+	</g>
+ 
+	<g id="foot-template"  width="580" height="320" font-size="30px">
+
+		<text title="total" x="400" y="40" text-anchor="end" >应收合计:</text>
+		<text id="total" x="410" y="40" text-anchor="start">{{ctx.subTotal + ' ' + ctx.docCurrencyCode}}</text>
+
+		<text title="cashpay" x="400" y="80" text-anchor="end">折扣比例:</text>
+		<text id="cash" x="410" y="80" text-anchor="start">{{ctx.discountPercentage +' %'}}</text>
+
+		<text title="change" x="400" y="120" text-anchor="end">折扣金额:</text>
+		<text id="change" x="410" y="120" text-anchor="start">{{ctx.discountSum + ' ' + ctx.docCurrencyCode}}</text>
+
+		<text title="change" x="400" y="160" text-anchor="end">支付方式:</text>
+		<text id="change" x="410" y="160" text-anchor="start">{{ctx.paymentMethod === 'Cash' ? '现金': (ctx.paymentMethod === 'Bank' ? '银行卡' : '其它')}}</text>
+
+	    <text relative='1' title="tax" x="400" deltaY="40" removeCond="ctx.priceMethod == 'GROSS_PRICE'" text-anchor="end">税:</text>
+        <text relative='1' id="tax" x="410" deltaY="0" removeCond="ctx.priceMethod == 'GROSS_PRICE'" text-anchor="start">{{ctx.taxTotal + ' ' + ctx.docCurrencyCode}}</text>
+        
+        <text relative='1' title="docTotal" x="400" deltaY="40" text-anchor="end">应付金额:</text>
+        <text relative='1' id="docTotal" x="410" deltaY="0" text-anchor="start">{{ctx.grossDocTotal + ' ' + ctx.docCurrencyCode}}</text>
+
+		<line relative='1' x1="10" x2="540" deltaY="30" stroke-dasharray="5,5" style="stroke:rgb(0,0,0);stroke-width:1" />
+		<text relative='1' x="280" deltaY="30" text-anchor="middle" >欢迎惠顾</text>
+		<line relative='1' x1="10" x2="540" deltaY="20" stroke-dasharray="5,5" style="stroke:rgb(0,0,0);stroke-width:1" />
+ 
+		
+	</g>
+</g>

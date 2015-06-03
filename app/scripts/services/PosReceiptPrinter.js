@@ -5,7 +5,7 @@ angular.module('posReceiptTemplateApp').factory('POSReceiptPrinter', ['$timeout'
   function($timeout) {
   	//////////////////////////////////////////////////////////////////////////////////////////
     ///ImageBuilder Definision
-    function ImageBuilder(templateStore, canvas, imageType) {
+    function ImageBuilder(templateStore, canvas, imageType, locale) {
         var domParser = new DOMParser();
         // this.templateStore = domParser.parseFromString(templateStore, "image/svg+xml");
         this.templateStore = domParser.parseFromString(templateStore, "application/xml");
@@ -14,19 +14,58 @@ angular.module('posReceiptTemplateApp').factory('POSReceiptPrinter', ['$timeout'
         this.canvas = canvas;
 
         this.workAroundDiv = undefined;
+
+        //find locale
+        if (locale) {
+            var store = this.templateStore.querySelector('[locale=$$]'.replace('$$', locale));
+            if (store) {
+              this.templateStore = store;
+            }
+        };
+
     };
 
     function evalInContext(ctx, expr) {
-        try  {
-          return  eval(expr);
-        }
-        catch(exception) {
-         return expr;
+        var formatDate = function(localTm) {
+          var t = localTm instanceof Date ? localTm : new Date(localTm);
+          console.log('evalInContext localTm:', t);
+            
+          // 2015-04-29 04:57 PM
+          var sep1 = "-", 
+              sep2 = ":",
+              year = t.getFullYear(),
+              month = t.getMonth() + 1,
+              date = t.getDate(),
+              hour = t.getHours(),
+              minute = t.getMinutes(),
+              second = t.getSeconds();
+          //AM or PM
+          var ampm = 'AM';
+          if (hour >= 12) {
+            hour = hour-12;
+            ampm = 'PM';
+          };
+
+          month = month >= 10 ? ''+month :'0'+month;
+          date = date >= 10 ? ''+date : '0'+date;
+          hour = hour >= 10 ? ''+hour : '0'+hour;
+          minute = minute >= 10 ? ''+minute : '0'+minute;
+          second = second >= 10 ? ''+second : '0'+second;
+       
+          var retDate = year + sep1 + month + sep1 + date
+                  + " " + hour + sep2 + minute + sep2 + second + ' '+ampm;
+          return retDate;
+
+        };
+        try {
+            return eval(expr);
+        } catch (exception) {
+            return expr;
         }
     };
 
     ImageBuilder.prototype.formatContent = function(template, keyValues) {
-        var origDoc = this.templateStore.getElementById(template);
+        var origDoc = this.templateStore.querySelector('#$$'.replace('$$', template) );
         if (origDoc == null) {
             console.warn("Can't find template:", template);
             return null;
@@ -36,19 +75,47 @@ angular.module('posReceiptTemplateApp').factory('POSReceiptPrinter', ['$timeout'
         //replace all text
         var origContent = null,
             ar, expr;
-        var deltaX, deltaY, newX, newY, prevTextElement = null;
-        var removeTextEleArray = [];
-        $.each(itemDoc.getElementsByTagName('text'), function(index, textElement) {
-            if (textElement.getAttribute('removeCond')) { 
-                expr = textElement.getAttribute('removeCond');
+        var deltaX, deltaY, newX, newY, prevElement = null;
+
+        console.log('before handle repeat text length', itemDoc.querySelectorAll('text').length);
+
+        //process repeat
+        $.each(itemDoc.querySelectorAll('repeat'), function(index, repeatElement) {
+            
+            if (repeatElement.childElementCount < 1) {
+                return;
+            }
+            var modelName = repeatElement.getAttribute('model');
+            var lengExpr = 'ctx.'+modelName+'.length';
+            var length = evalInContext(keyValues, lengExpr);
+            var templateArr = repeatElement.children;
+            for (var i = 0; i < length; i++) {
+                for (var j = 0; j < templateArr.length; j++) {
+                    var template = templateArr[j];
+                    var newNode = template.cloneNode();
+                    newNode.textContent = template.textContent.replace('model.', 'ctx.'+modelName+'['.concat(i).concat('].'));
+                    repeatElement.parentNode.insertBefore(newNode, repeatElement);
+                }
+            };
+
+            repeatElement.remove();
+        });
+
+        console.log('template: ',template,  'repeat length', itemDoc.querySelectorAll('repeat').length);
+        console.log('after handle repeat text length', itemDoc.querySelectorAll('text').length);
+
+        var removeElementArray = [];
+        $.each(itemDoc.querySelectorAll('text,line'), function(index, element) {
+            if (element.getAttribute('removeCond')) { 
+                expr = element.getAttribute('removeCond');
                 if (evalInContext(keyValues, expr)) {
-                    removeTextEleArray.push(textElement);
+                    removeElementArray.push(element);
                    return true;
                 }
             }
 
             /* iterate through array or object */
-            origContent = textElement.textContent.trim();
+            origContent = element.textContent.trim();
             if (origContent) {
                 // var regexp = /{{([0-9a-zA-Z.]+)}}/g;
                 var regexp = /{{(.+)}}/g;
@@ -58,21 +125,36 @@ angular.module('posReceiptTemplateApp').factory('POSReceiptPrinter', ['$timeout'
                     expr = ar[1].trim();
                     //evalInContext
                     var replacedStr = evalInContext(keyValues, expr);
-                    textElement.textContent = unescape(encodeURIComponent(replacedStr));
+                    element.textContent = unescape(encodeURIComponent(replacedStr));
                 } else {
-                    textElement.textContent = unescape(encodeURIComponent(origContent));
+                    element.textContent = unescape(encodeURIComponent(origContent));
                 }
             };
-            if (textElement.getAttribute('relative') && !!prevTextElement) {  
-                deltaX = textElement.getAttribute('deltaX');
-                deltaY = textElement.getAttribute('deltaY');
-                newX = parseInt(prevTextElement.getAttribute('x'))+parseInt(!!deltaX ? deltaX: 0);
-                newY = parseInt(prevTextElement.getAttribute('y'))+ parseInt(!!deltaY ? deltaY: 0);
-                textElement.setAttribute('x', newX);
-                textElement.setAttribute('y', newY);
+
+            if (element.getAttribute('relative')) {
+                element.setAttribute('relativeX', 1);
+                element.setAttribute('relativeY', 1);
+            }
+           
+            if (element.nodeName === 'text' && element.getAttribute('relativeX') && !!prevElement) {  
+                deltaX = element.getAttribute('deltaX');
+                newX = parseInt(prevElement.getAttribute('x'))+parseInt(!!deltaX ? deltaX: 0);
+                element.setAttribute('x', newX);
+            };
+            if (element.getAttribute('relativeY') && !!prevElement) {  
+                deltaY = element.getAttribute('deltaY');
+                newY = parseInt(prevElement.getAttribute('y'))+ parseInt(!!deltaY ? deltaY: 0);
+                element.setAttribute('y1', newY);
+                element.setAttribute('y2', newY);
+                element.setAttribute('y', newY);
+                if (!newY) {
+                    console.log(11111);
+                };
             };
 
-            prevTextElement = textElement;
+            if (element.nodeName === 'text') {
+                prevElement = element;
+            }
         });
 
         $.each(itemDoc.getElementsByTagName('image'), function(index, imageElement) {
@@ -91,8 +173,8 @@ angular.module('posReceiptTemplateApp').factory('POSReceiptPrinter', ['$timeout'
             };
         });
 
-        $.each(removeTextEleArray, function(index, textElement) {
-            textElement.remove();
+        $.each(removeElementArray, function(index, element) {
+            element.remove();
         });
 
         var width = itemDoc.getAttribute("width") || "574";
@@ -216,7 +298,7 @@ angular.module('posReceiptTemplateApp').factory('POSReceiptPrinter', ['$timeout'
                 that.__printIsWorking = false;
             } else {
                 var request = that.__printRequestQueue.pop();
-                $.when(that.__printReceipt(request.data, request.printer, request.otherArgs))
+                $.when(that.__printReceipt(request.data, request.printer, request.otherArgs ? request.otherArgs : undefined))
                     .then(function() {
                         console.log('after print one request: going to start another printJobLoop');
                         request.dtd.resolve();
@@ -242,7 +324,7 @@ angular.module('posReceiptTemplateApp').factory('POSReceiptPrinter', ['$timeout'
         $.when(printer.open(otherArgs))
             .then(function() {
                 console.log('====after open');
-                return that.__printData(printer, templateDataArray);
+                return that.__printData(printer, templateDataArray, otherArgs.locale);
             })
             .then(function() {
                 console.log('====after printData');
@@ -259,13 +341,13 @@ angular.module('posReceiptTemplateApp').factory('POSReceiptPrinter', ['$timeout'
         return dtd.promise();
     };
 
-    POSReceiptPrinter.prototype.__printData = function(printer, templateDataArray) {
+    POSReceiptPrinter.prototype.__printData = function(printer, templateDataArray, locale) {
         var dtd = $.Deferred();
 
         this.cacheCanvas = this.cacheCanvas || document.createElement("canvas");
 
         var templateStore = this.cachetemplate || this.localDefaultTemplate;
-        var imageBuilder = new ImageBuilder(templateStore, this.cacheCanvas, "image/png");
+        var imageBuilder = new ImageBuilder(templateStore, this.cacheCanvas, "image/png", locale);
 
         function printItemLoop(index) {
             if (index >= templateDataArray.length) {

@@ -24,11 +24,13 @@ angular.module('posReceiptTemplateApp')
 				}
 			};
 
+			var lang = 'zh';
+
 			$rootScope.refresh = function(template) {
 				function doPrint(templateContent) {
 					POSReceiptPrinter.setTemplateContent(templateContent);
 					var data = SalesOrder.buildPrintData(SalesOrder.getData());
-					var printer = POSReceiptPrinter.print(data, Previewer)
+					var printer = POSReceiptPrinter.print(data, Previewer, {locale: lang})
 				}
 				if (template) {
 					doPrint(template);
@@ -47,6 +49,12 @@ angular.module('posReceiptTemplateApp')
 				$rootScope.refresh(template);
 			};
 			$rootScope.localFilename = '';
+
+			$rootScope.ToggleLang = function(template) {
+				lang = lang === 'zh' ? 'en' : 'zh';
+				$rootScope.clear();
+				$rootScope.refresh();
+			};
 			
 		}
 	])

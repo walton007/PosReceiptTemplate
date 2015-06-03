@@ -4,7 +4,55 @@
 angular.module('posReceiptTemplateApp').factory('SalesOrder',
   function() {
     return {
-      getData: function() {
+      getData: function  (argument) {
+        // body...
+        var headfooter = {
+          storeName: 'H&M JingAn Temple',
+          storeAddress: 'Jing An 1090',
+          customerName: 'Jackiy',
+          employer: 'ZhengShuang',
+          docDate: new Date(),
+          orderId: '20151112-131411',
+          subTotal: 1000,
+          discountPercentage: 12,
+          discountSum: 120,
+          preTaxSum: 880,
+          tax: 100,
+          finalSum: 980,
+          currencyCode: '$',
+          paymentMethod: 'cash',
+          paymentDetails: [{
+            amount: 880,
+            paymentAccount: 'cash'
+          }, {
+            amount: 100,
+            paymentAccount: 'bank'
+          }],
+        };
+
+        var productLines = [{
+          productId: 'ITM01',
+          itemName: 'CPU',
+          standPrice: 1200,
+          price: 1100,
+          quantity: 1,
+          lineTotal: 1100
+        }, {
+          productId: 'ITM02',
+          itemName: 'HARDDIST',
+          standPrice: 600,
+          price: 550,
+          quantity: 2,
+          lineTotal: 1100
+        }];
+
+        return {
+          productLines: productLines,
+          headfooter: headfooter
+        };
+      },
+
+      getData2: function() {
           var productLines = [{
             discountPercentage: "0",
             displayOriginal: "true",
@@ -180,7 +228,28 @@ angular.module('posReceiptTemplateApp').factory('SalesOrder',
           return mockSalesOrder;
         },
 
-      buildPrintData: function(salesOrder) {
+      buildPrintData: function(data) {
+        var head = {
+                'sectionid': 'header-template',
+                'keyValues': data.headfooter
+              },
+              items = [],
+              footer = {
+                'sectionid': 'foot-template',
+                'keyValues': data.headfooter
+              };
+
+            $.each(data.productLines, function(index, documentLine) {
+              items.push({
+                'sectionid': 'item-template',
+                'keyValues': documentLine 
+              });
+            });
+
+            return [head].concat(items).concat([footer]);
+      },
+
+      buildPrintData2: function(salesOrder) {
             var orderModel = 'propertyValues' in salesOrder ?
               this.__dataConvertor.convertTo(salesOrder.entityType, salesOrder, null, {
               encode: false,
@@ -194,6 +263,13 @@ angular.module('posReceiptTemplateApp').factory('SalesOrder',
             delete orderModel['productLines'];
 
             var globalOrderModel = $.extend(orderModel, {
+              paymentDetails: [{
+                amount: 110,
+                paymentAccount: 'cash'
+              }, {
+                amount: 310,
+                paymentAccount: 'bank'
+              },],
               currentEmployee: {
                 ackupEmail: "test@sap.com",
                 displayLanguage: "zh_CN",
