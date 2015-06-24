@@ -30,13 +30,19 @@ angular.module('posReceiptTemplateApp')
 				}
 			};
 
-			var lang = 'zh';
+			$scope.localeZH = false;
+			$scope.$watch('localeZH', function(newVal, oldVal){
+			    $rootScope.clear();
+				$rootScope.refresh();
+		    });
 
 			$rootScope.refresh = function(template) {
 				function doPrint(templateContent) {
 					POSReceiptPrinter.setTemplateContent(templateContent);
-					var data = SalesOrder.buildPrintData(SalesOrder.getData());
-					var printer = POSReceiptPrinter.print(data, Previewer, {locale: lang})
+					SalesOrder.getData()
+					.then(function(data) {
+						POSReceiptPrinter.print(data, Previewer, {locale: $scope.localeZH ? 'zh' : 'en'});
+					});
 				}
 				if (template) {
 					doPrint(template);

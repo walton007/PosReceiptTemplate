@@ -75,12 +75,12 @@ angular.module('posReceiptTemplateApp').factory('templateService', ['$http',
         getConfig: function () {
           return config;
         },
-        
+
         getTemplate: function() {
           if (localTemplate) {
             return localTemplate;
           };
-            return $http.get('./receiptTemplate_v1.1.xml', {
+            return $http.get('./receiptTemplate.xml', {
                 mimeType: "text/plain;charset=utf-8"
             });
         }
