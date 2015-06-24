@@ -1,5 +1,88 @@
-<div ng-init="refresh()">
-	<div class="row" ng-repeat="imgdata in images track by $index" >
-	 <img ng-src="{{imgdata}}"/>
+<div ng-init="refresh()" class="row">
+	<div class="col-md-8">
+		<div >
+			<div class="row" ng-repeat="imgdata in images track by $index" >
+				<img ng-src="{{imgdata}}"/>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-4">
+		<div class="row">
+			<h3> Header </h3>
+			<label class="checkbox">
+				<input type="checkbox" ng-model="config.titleImage.enable">
+				titleImage
+			</label>
+			<label class="checkbox">
+				<input type="checkbox" ng-model="config.titleLabel.enable">
+				titleLabel
+			</label>
+			<label class="checkbox">
+				<input type="checkbox" ng-model="config.storeName.enable">
+				storeName
+			</label>
+			<label class="checkbox">
+				<input type="checkbox" ng-model="config.Date.enable">
+				Date
+			</label>
+			<label class="checkbox">
+				<input type="checkbox" ng-model="config.employer.enable">
+				employer
+			</label>
+			<label class="checkbox">
+				<input type="checkbox" ng-model="config.customerName.enable">
+				customerName
+			</label>
+			<div class="row">
+				<h3> productLine </h3>
+				<label class="checkbox">
+					<input type="checkbox" ng-model="config.productLine.productId.enable">
+					productId
+				</label>
+				<label class="checkbox">
+					<input type="checkbox" ng-model="config.productLine.itemName.enable">
+					itemName
+				</label>
+				<label class="checkbox">
+					<input type="checkbox" ng-model="config.productLine.standPrice.enable">
+					standPrice
+				</label>
+				<label class="checkbox">
+					<input type="checkbox" ng-model="config.productLine.price.enable">
+					price
+				</label>
+			</div>
+
+			<h3> Order Total </h3>
+			<label class="checkbox">
+				<input type="checkbox" ng-model="config.subTotal.enable">
+				Total Before Discount
+			</label>
+			<label class="checkbox">
+				<input type="checkbox" ng-model="config.preTaxSum.enable">
+				Total After Discount
+			</label>
+			<label class="checkbox">
+				<input type="checkbox" ng-model="config.discountSum.enable">
+				Discount Amount
+			</label>
+			<label class="checkbox">
+				<input type="checkbox" ng-model="config.discountPercentage.enable">
+				Discount Percentage
+			</label>
+			<label class="checkbox">
+				<input type="checkbox" ng-model="config.tax.enable">
+				VAT 
+			</label>
+			<label class="checkbox">
+				<input type="checkbox" ng-model="config.finalSum.enable">
+				Document Total
+			</label>
+			<label class="checkbox">
+				<input type="checkbox" ng-model="config.paymentMethod.enable">
+				paymentMethod 
+			</label>
+			
+		</div>
 	</div>
 </div>

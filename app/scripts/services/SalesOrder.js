@@ -1,7 +1,7 @@
 'use strict';
 
 //Articles service used for articles REST endpoint
-angular.module('posReceiptTemplateApp').factory('SalesOrder',
+angular.module('posReceiptTemplateApp').factory('SalesOrder',[
   function() {
     return {
       getData: function  (argument) {
@@ -318,4 +318,4 @@ angular.module('posReceiptTemplateApp').factory('SalesOrder',
             return [head].concat(items).concat([footer]);
       }
     }
-  });
+  }]);

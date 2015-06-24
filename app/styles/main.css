@@ -34,7 +34,7 @@ body {
 /* Customize container */
 @media (min-width: 768px) {
   .container {
-    max-width: 730px;
+    max-width: 1024px;
   }
 }
 .container-narrow > hr {
@@ -77,6 +77,9 @@ body {
     border-bottom: 0;
   }
 }
+
+.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
+
 
 .btn-file {
     position: relative;

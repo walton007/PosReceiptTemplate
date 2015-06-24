@@ -10,6 +10,12 @@
 angular.module('posReceiptTemplateApp')
 	.controller('MainCtrl', ['$rootScope', '$scope', 'POSReceiptPrinter', 'templateService', 'SalesOrder',
 		function($rootScope, $scope, POSReceiptPrinter, templateService, SalesOrder) {
+			$scope.config = templateService.getConfig();
+			$scope.$watch('config', function(newVal, oldVal){
+		        console.log('changed');
+		        // $rootScope.clear();
+				// $rootScope.refresh(templateService.getFromConfig());
+		    }, true);
 
 			$scope.images = [];
 			var Previewer = {
