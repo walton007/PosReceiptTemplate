@@ -93,7 +93,7 @@ angular.module('posReceiptTemplateApp').factory('POSReceiptPrinter', ['$timeout'
                 for (var j = 0; j < templateArr.length; j++) {
                     var template = templateArr[j];
                     var newNode = template.cloneNode();
-                    newNode.textContent = template.textContent.replace('model.', 'ctx.'+modelName+'['.concat(i).concat('].'));
+                    newNode.textContent = template.textContent.replace(/(model.)/g, 'ctx.'+modelName+'['.concat(i).concat('].'));
                     repeatElement.parentNode.insertBefore(newNode, repeatElement);
                 }
             };

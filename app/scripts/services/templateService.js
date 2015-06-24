@@ -9,7 +9,7 @@ angular.module('posReceiptTemplateApp').factory('templateService', ['$http',
           if (localTemplate) {
             return localTemplate;
           };
-            return $http.get('./receiptTemplate.xml', {
+            return $http.get('./receiptTemplate_v1.1.xml', {
                 mimeType: "text/plain;charset=utf-8"
             });
         }
