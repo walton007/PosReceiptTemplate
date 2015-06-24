@@ -1,18 +1,26 @@
 <div ng-init="refresh()" class="row">
-	<div class="col-md-8">
+	<div class="col-md-6">
 		<div >
 			<div class="row" ng-repeat="imgdata in images track by $index" >
 				<img ng-src="{{imgdata}}"/>
 			</div>
 		</div>
+		 
 	</div>
-	<div class="col-md-4">
+	<div class="col-md-5">
+		 
+		<div >
+			<div class="row" ng-repeat="imgdata in zhImages track by $index" >
+				<img ng-src="{{imgdata}}"/>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-1">
 		<div class="row">
 			<h3> Locale </h3>
-			<label class="checkbox">
-				<input type="checkbox" ng-model="localeZH">
-				Zh-locle
-			</label>
+			<div class="btn btn-default" ng-click="Reload()">
+				 Apply Change
+			</div>
 
 			<h3> Header </h3>
 			<label class="checkbox">

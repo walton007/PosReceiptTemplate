@@ -13,47 +13,47 @@ angular.module('posReceiptTemplateApp')
 			$scope.config = templateService.getConfig();
 			$scope.$watch('config', function(newVal, oldVal){
 		        console.log('changed');
-		        // $rootScope.clear();
-				// $rootScope.refresh(templateService.getFromConfig());
+		        $rootScope.Reload();
 		    }, true);
 
 			$scope.images = [];
-			var Previewer = {
+			$scope.zhImages = [];
+			
+			var Previewer = function(images) {
+				this.images = images;
+			};
+			Previewer.prototype = {
 				open: function() {
 					return;
 				},
 				printImage: function(imageData) {
-					$scope.images.push(imageData);
+					this.images.push(imageData);
 				},
 				close: function() {
 					return;
 				}
 			};
 
-			$scope.localeZH = false;
-			$scope.$watch('localeZH', function(newVal, oldVal){
-			    $rootScope.clear();
-				$rootScope.refresh();
-		    });
-
 			$rootScope.refresh = function(template) {
 				function doPrint(templateContent) {
 					POSReceiptPrinter.setTemplateContent(templateContent);
 					SalesOrder.getData()
 					.then(function(data) {
-						POSReceiptPrinter.print(data, Previewer, {locale: $scope.localeZH ? 'zh' : 'en'});
+						POSReceiptPrinter.print(data, new Previewer($scope.images), {locale: 'zh'});
+						POSReceiptPrinter.print(data, new Previewer($scope.zhImages), {locale: 'en'});
 					});
 				}
 				if (template) {
 					doPrint(template);
 				} else {
-					templateService.getTemplate().success(function(templateContent) {
+					templateService.getConfigMergedTemplate().then(function(templateContent) {
 						doPrint(templateContent);
 					});
 				}
 			}; 
 			$rootScope.clear = function() {
 				$scope.images = [];
+				$scope.zhImages = [];
 				$rootScope.localFilename = '';
 			}; 
 			$rootScope.Reload = function(template) {

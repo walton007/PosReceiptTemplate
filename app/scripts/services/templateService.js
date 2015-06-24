@@ -1,8 +1,8 @@
 'use strict';
 
 //Articles service used for articles REST endpoint
-angular.module('posReceiptTemplateApp').factory('templateService', ['$http',
-  function($http) {  	 
+angular.module('posReceiptTemplateApp').factory('templateService', ['$http', '$q',
+  function($http, $q) {  	 
     var localTemplate = null;
     var config = {
       "titleImage": {
@@ -71,18 +71,51 @@ angular.module('posReceiptTemplateApp').factory('templateService', ['$http',
         "content": []
       }
     };
+
+    var defaultConfigTemplate = null;
+    function getDefaultConfigTemplate() {
+      var deferred = $q.defer();
+      if (defaultConfigTemplate) {
+        deferred.resolve(defaultConfigTemplate);
+      } else {
+        $http.get('./receiptTemplate_config.xml', {
+          mimeType: "text/plain;charset=utf-8"
+        })
+        .then(function (resp) {
+          defaultConfigTemplate = resp.data;
+          deferred.resolve(defaultConfigTemplate);
+        });
+      }
+      return deferred.promise;
+    } 
+    getDefaultConfigTemplate();
   	return {
         getConfig: function () {
           return config;
         },
 
+        getConfigMergedTemplate: function () {
+          var deferred = $q.defer();
+          getDefaultConfigTemplate()
+          .then(function (_defaultConfigTemplate) {
+            var regrex = new RegExp('removeCond="{{config.storeName}}"',"gi");
+            var targetStr = (config.storeName.enable) ? 'removeCond="0"' : 'removeCond="1"';
+            var finalTemplate = _defaultConfigTemplate.replace(regrex, targetStr);
+            console.log(finalTemplate);
+            deferred.resolve(finalTemplate);
+          })
+          return deferred.promise;
+        },
+
         getTemplate: function() {
           if (localTemplate) {
-            return localTemplate;
+            var deferred = $q.defer();
+            deferred.resolve(localTemplate);
+            return deferred.promise;
           };
-            return $http.get('./receiptTemplate.xml', {
-                mimeType: "text/plain;charset=utf-8"
-            });
+          return $http.get('./receiptTemplate.xml', {
+              mimeType: "text/plain;charset=utf-8"
+          });
         }
     };
   }
