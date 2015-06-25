@@ -1,28 +1,31 @@
 <g>
 	<g locale ='zh'>
 		<g id="header-template"  width="588" height="360" font-size="24px">
-			<text x="280" y="40" text-anchor="middle" removeCond="{{config.storeName}}" font-size="50px">{{ctx.storeName}}</text>
-			<text x="280" y="80" text-anchor="middle" font-size="20px"> {{ctx.storeAddress}} </text>
-			<line x1="10" y1="95" x2="578" y2="95" stroke-dasharray="5,5" style="stroke:rgb(0,0,0);stroke-width:2" />
-	        <text x="10" y="130" text-anchor="start" > 单号:</text>
-			<text x="10" y="160" text-anchor="start" > 时间:</text>
-	        <text x="10" y="200" removeCond="{{config.storeName}}" text-anchor="start"> 店铺:</text>
-	        <text x="10" y="240" text-anchor="start"> 客户:</text>
-	        <text x="10" y="280" text-anchor="start"> 收银员:</text>
+			<text id="name" x="280" y="40" text-anchor="middle"   font-size="50px">东海证券</text>
+			<text x="280" relativeY="1" deltaY="40" text-anchor="middle" font-size="20px"> {{ctx.storeAddress}} </text>
+			<line x1="10" x2="578" relativeY="1" deltaY="10" stroke-dasharray="5,5" style="stroke:rgb(0,0,0);stroke-width:2" />
+	        <text x="10" relativeY="1" deltaY="40" text-anchor="start" > 单号:</text>
+	        <text relative="1" deltaX="565" text-anchor="end"> {{ctx.orderId}} </text>
 
-	        <text x="578" y="130" text-anchor="end"> {{ctx.orderId}} </text>
-	        <text x="578" y="160" text-anchor="end"> {{formatDate(ctx.docDate)}} </text>
-	        <text x="578" y="200" text-anchor="end" removeCond="{{config.storeName}}"> {{ctx.storeName}} </text>
-			<text x="578" y="240" text-anchor="end" >{{ctx.customerName}}</text>
-			<text x="578" y="280" text-anchor="end" >{{ctx.employer}}</text>
+			<text class="Date" x="10" relativeY="1" deltaY="40" text-anchor="start" > 时间:</text>
+			<text class="Date" relative="1" deltaX="565" text-anchor="end"> {{formatDate(ctx.docDate)}} </text>
 
-			<line x1="10" y1="290" x2="578" y2="290" stroke-dasharray="5,5" style="stroke:rgb(0,0,0);stroke-width:2" />
+	        <text class="storeName" x="10" relativeY="1" deltaY="40"  text-anchor="start"> 店铺:</text>
+	        <text class="storeName" relative="1" deltaX="565" text-anchor="end" > {{ctx.storeName}} </text>
+
+	        <text class="customerName" x="10" relativeY="1" deltaY="40" text-anchor="start"> 客户:</text>
+	        <text class="customerName" relative="1" deltaX="565" text-anchor="end" >{{ctx.customerName}}</text>
+
+	        <text class="employer" x="10" relativeY="1" deltaY="40" text-anchor="start"> 收银员:</text>
+			<text class="employer" relative="1" deltaX="565" text-anchor="end" >{{ctx.employer}}</text>
+
+			<line x1="10" x2="578" relativeY="1" deltaY="15" stroke-dasharray="5,5" style="stroke:rgb(0,0,0);stroke-width:2" />
 		
-			<text x="10" y="340" text-anchor="start" >商品</text>
-	        <text x="200" y="340" text-anchor="start">原价</text>
-			<text x="300" y="340" text-anchor="start">现价</text>
-	        <text x="400" y="340" text-anchor="start">数量</text>
-	        <text x="578" y="340" text-anchor="end">小计</text>			
+			<text x="10" relativeY="1" deltaY="60" text-anchor="start" >商品</text>
+	        <text relative="1" deltaX="100" text-anchor="end">原价</text>
+			<text relative="1" deltaX="100" text-anchor="start">现价</text>
+	        <text relative="1" deltaX="100" text-anchor="start">数量</text>
+	        <text relative="1" deltaX="125" text-anchor="end">小计</text>			
 		</g>
 
 		<g id="item-template"  width="588" height="((ctx.itemName.length/20)+2)*35 " font-size="24px">

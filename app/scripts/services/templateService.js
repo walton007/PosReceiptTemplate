@@ -3,7 +3,11 @@
 //Articles service used for articles REST endpoint
 angular.module('posReceiptTemplateApp').factory('templateService', ['$http', '$q',
   function($http, $q) {  	 
-    var localTemplate = null;
+    var localTemplate = null,
+    serializer = new XMLSerializer(),
+    cacheDocument = null ;
+    var headContent = ["storeName", "Date", "employer", "customerName"],
+    headHeight = [360, 360-40,  360-40*2,  360-40*3, 360-40*4];
     var config = {
       "titleImage": {
         "enable": true,
@@ -14,16 +18,16 @@ angular.module('posReceiptTemplateApp').factory('templateService', ['$http', '$q
         "text": null
       },
       "storeName": {
-        "enable": false
+        "enable": true
       },
       "Date": {
-        "enable": false
+        "enable": true
       },
       "employer": {
-        "enable": false
+        "enable": true
       },
       "customerName": {
-        "enable": false
+        "enable": true
       },
       "productLine": {
         "productId": {
@@ -75,7 +79,7 @@ angular.module('posReceiptTemplateApp').factory('templateService', ['$http', '$q
     var defaultConfigTemplate = null;
     function getDefaultConfigTemplate() {
       var deferred = $q.defer();
-      if (defaultConfigTemplate) {
+      if (defaultConfigTemplate != null) {
         deferred.resolve(defaultConfigTemplate);
       } else {
         $http.get('./receiptTemplate_config.xml', {
@@ -88,7 +92,22 @@ angular.module('posReceiptTemplateApp').factory('templateService', ['$http', '$q
       }
       return deferred.promise;
     } 
-    getDefaultConfigTemplate();
+
+    function getCacheDocument() {
+      var deferred = $q.defer();
+      if (cacheDocument) {
+        deferred.resolve(cacheDocument);
+      } else {
+        getDefaultConfigTemplate()
+        .then(function (_defaultConfigTemplate) {
+          cacheDocument = new DOMParser().parseFromString(_defaultConfigTemplate, "application/xml");
+          deferred.resolve(cacheDocument);
+        });
+      }
+
+      return deferred.promise;
+    }
+     
   	return {
         getConfig: function () {
           return config;
@@ -96,11 +115,30 @@ angular.module('posReceiptTemplateApp').factory('templateService', ['$http', '$q
 
         getConfigMergedTemplate: function () {
           var deferred = $q.defer();
-          getDefaultConfigTemplate()
-          .then(function (_defaultConfigTemplate) {
-            var regrex = new RegExp('removeCond="{{config.storeName}}"',"gi");
-            var targetStr = (config.storeName.enable) ? 'removeCond="0"' : 'removeCond="1"';
-            var finalTemplate = _defaultConfigTemplate.replace(regrex, targetStr);
+          var findEle = false;
+          getCacheDocument()
+          .then(function (_cacheDocument) {
+            var headDisableCnt = 0;
+            angular.forEach(config, function (value, key) {
+              if (key === 'productLine') {
+                return;
+              };
+              
+              findEle = false;
+              angular.forEach(_cacheDocument.getElementsByClassName(key),
+              function(ele) {
+                  findEle = true;
+                  ele.setAttribute('removeCond', value.enable ? 0 : 1);
+              });
+              if (findEle && value.enable === false) {
+                headDisableCnt = headDisableCnt+1;
+              };
+            })
+
+            //Set height change
+            _cacheDocument.querySelector('#header-template').setAttribute('height', headHeight[headDisableCnt]);
+            
+            var finalTemplate = serializer.serializeToString(_cacheDocument);
             console.log(finalTemplate);
             deferred.resolve(finalTemplate);
           })
