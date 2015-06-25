@@ -31,22 +31,22 @@ angular.module('posReceiptTemplateApp').factory('templateService', ['$http', '$q
       },
       "productLine": {
         "productId": {
-          "enable": false
+          "enable": true
         },
         "itemName": {
-          "enable": false
+          "enable": true
         },
         "standPrice": {
-          "enable": false
+          "enable": true
         },
         "price": {
-          "enable": false
+          "enable": true
         },
         "quantity": {
-          "enable": false
+          "enable": true
         },
         "lineTotal": {
-          "enable": false
+          "enable": true
         }
       },
       "subTotal": {
@@ -130,7 +130,7 @@ angular.module('posReceiptTemplateApp').factory('templateService', ['$http', '$q
                   findEle = true;
                   ele.setAttribute('removeCond', value.enable ? 0 : 1);
               });
-              if (findEle && value.enable === false) {
+              if (headContent.indexOf(key) && findEle && value.enable === false) {
                 headDisableCnt = headDisableCnt+1;
               };
             })

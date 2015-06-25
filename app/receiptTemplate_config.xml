@@ -23,23 +23,24 @@
 		
 			<text x="10" relativeY="1" deltaY="60" text-anchor="start" >商品</text>
 	        <text relative="1" deltaX="100" text-anchor="end">原价</text>
+	        <text relative="1" deltaX="100" text-anchor="start">原价</text>
 			<text relative="1" deltaX="100" text-anchor="start">现价</text>
-	        <text relative="1" deltaX="100" text-anchor="start">数量</text>
+	        <text relative="1" deltaX="120" text-anchor="start">数量</text>
 	        <text relative="1" deltaX="125" text-anchor="end">小计</text>			
 		</g>
 
 		<g id="item-template"  width="588" height="((ctx.itemName.length/20)+2)*35 " font-size="24px">
-			<text id="name" x="10" y="40" text-anchor="start">{{ctx.itemName}}</text>
-			<text relative='1' deltaY="33" removeCond="ctx.itemName.length &lt;= 20"  text-anchor="start"> {{ctx.itemName.substr(20,20)}} </text>
-			<text relative='1' deltaY="33" removeCond="ctx.itemName.length &lt;= 2*20"  text-anchor="start"> {{ctx.itemName.substr(2*20,20)}} </text>
-			<text relative='1' deltaY="33" removeCond="ctx.itemName.length &lt;= 3*20"  text-anchor="start"> {{ctx.itemName.substr(3*20,20)}} </text>			
-			<text id="standPrice" x="200" relativeY='1' deltaY="33" text-anchor="start" >{{ctx.standPrice}}</text>
-			<text id="price"      x="300" relativeY='1' deltaY="0" text-anchor="start" >{{ctx.price}}</text>
-			<text id="quantity"   x="400" relativeY='1' deltaY="0" text-anchor="start" >{{ctx.quantity}}</text>
-			<text id="linetotal"  x="578" relativeY='1' deltaY="0" text-anchor="end">{{ctx.lineTotal}}</text> 
+			<text x="10" y="20" text-anchor="start">{{ctx.itemName}}</text>
+			<text relativeY='1' deltaY="33" removeCond="ctx.itemName.length &lt;= 20"  text-anchor="start"> {{ctx.itemName.substr(20,20)}} </text>
+			<text relativeY='1' deltaY="33" removeCond="ctx.itemName.length &lt;= 2*20"  text-anchor="start"> {{ctx.itemName.substr(2*20,20)}} </text>
+			<text relativeY='1' deltaY="33" removeCond="ctx.itemName.length &lt;= 3*20"  text-anchor="start"> {{ctx.itemName.substr(3*20,20)}} </text>			
+			<text class="standPrice" relative="1" deltaX="240" deltaY="40" text-anchor="end" >{{ctx.standPrice}}</text>
+			<text class="price"   relative="1" deltaX="100" text-anchor="end" >{{ctx.price}}</text> 
+			<text class="quantity" relative="1" deltaX="100" text-anchor="end" >{{ctx.quantity}}</text>
+			<text class="lineTotal"  relative="1" deltaX="100" text-anchor="end">{{ctx.lineTotal}}</text> 
 		</g>
 	 
-		<g id="foot-template"  width="588" height="520" font-size="24px">
+		<g id="foot-template" width="588" height="520" font-size="24px">
 
 			<text title="total" x="400" y="40" text-anchor="end" >商品合计:</text>
 			<text id="total" x="578" y="40" text-anchor="end">{{ctx.subTotal + ' ' + ctx.currencyCode}}</text>
