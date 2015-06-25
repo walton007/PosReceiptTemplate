@@ -29,26 +29,26 @@ angular.module('posReceiptTemplateApp').factory('templateService', ['$http', '$q
       "customerName": {
         "enable": true
       },
-      "productLine": {
-        "productId": {
-          "enable": true
-        },
-        "itemName": {
-          "enable": true
-        },
-        "standPrice": {
-          "enable": true
-        },
-        "price": {
-          "enable": true
-        },
-        "quantity": {
-          "enable": true
-        },
-        "lineTotal": {
-          "enable": true
-        }
+
+      "productLine_productId": {
+        "enable": true
       },
+      "productLine_itemName": {
+        "enable": true
+      },
+      "productLine_standPrice": {
+        "enable": true
+      },
+      "productLine_price": {
+        "enable": true
+      },
+      "productLine_quantity": {
+        "enable": true
+      },
+      "productLine_lineTotal": {
+        "enable": true
+      },
+ 
       "subTotal": {
         "enable": false
       },
@@ -130,7 +130,7 @@ angular.module('posReceiptTemplateApp').factory('templateService', ['$http', '$q
                   findEle = true;
                   ele.setAttribute('removeCond', value.enable ? 0 : 1);
               });
-              if (headContent.indexOf(key) && findEle && value.enable === false) {
+              if (headContent.indexOf(key) >= 0 && findEle && value.enable === false) {
                 headDisableCnt = headDisableCnt+1;
               };
             })

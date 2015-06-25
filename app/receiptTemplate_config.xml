@@ -22,22 +22,22 @@
 			<line x1="10" x2="578" relativeY="1" deltaY="15" stroke-dasharray="5,5" style="stroke:rgb(0,0,0);stroke-width:2" />
 		
 			<text x="10" relativeY="1" deltaY="60" text-anchor="start" >商品</text>
-	        <text relative="1" deltaX="100" text-anchor="end">原价</text>
-	        <text relative="1" deltaX="100" text-anchor="start">原价</text>
-			<text relative="1" deltaX="100" text-anchor="start">现价</text>
-	        <text relative="1" deltaX="120" text-anchor="start">数量</text>
-	        <text relative="1" deltaX="125" text-anchor="end">小计</text>			
+	        <text class="productLine_standPrice" relative="1" deltaX="200" text-anchor="start">原价</text>
+			<text class="productLine_price" relative="1" deltaX="100" text-anchor="start">现价</text>
+	        <text class="productLine_quantity" relative="1" deltaX="120" text-anchor="start">数量</text>
+	        <text class="productLine_lineTotal" relative="1" deltaX="125" text-anchor="end">小计</text>			
 		</g>
 
 		<g id="item-template"  width="588" height="((ctx.itemName.length/20)+2)*35 " font-size="24px">
 			<text x="10" y="20" text-anchor="start">{{ctx.itemName}}</text>
 			<text relativeY='1' deltaY="33" removeCond="ctx.itemName.length &lt;= 20"  text-anchor="start"> {{ctx.itemName.substr(20,20)}} </text>
 			<text relativeY='1' deltaY="33" removeCond="ctx.itemName.length &lt;= 2*20"  text-anchor="start"> {{ctx.itemName.substr(2*20,20)}} </text>
-			<text relativeY='1' deltaY="33" removeCond="ctx.itemName.length &lt;= 3*20"  text-anchor="start"> {{ctx.itemName.substr(3*20,20)}} </text>			
-			<text class="standPrice" relative="1" deltaX="240" deltaY="40" text-anchor="end" >{{ctx.standPrice}}</text>
-			<text class="price"   relative="1" deltaX="100" text-anchor="end" >{{ctx.price}}</text> 
-			<text class="quantity" relative="1" deltaX="100" text-anchor="end" >{{ctx.quantity}}</text>
-			<text class="lineTotal"  relative="1" deltaX="100" text-anchor="end">{{ctx.lineTotal}}</text> 
+			<text relativeY='1' deltaY="33" removeCond="ctx.itemName.length &lt;= 3*20"  text-anchor="start"> {{ctx.itemName.substr(3*20,20)}} </text>	
+			<text relative="1" deltaX="1" deltaY="40" text-anchor="end" > </text>		
+			<text class="productLine_standPrice" relative="1" deltaX="240" text-anchor="end" >{{ctx.standPrice}}</text>
+			<text class="productLine_price"   relative="1" deltaX="100" text-anchor="end" >{{ctx.price}}</text> 
+			<text class="productLine_quantity" relative="1" deltaX="100" text-anchor="end" >{{ctx.quantity}}</text>
+			<text class="productLine_lineTotal"  relative="1" deltaX="100" text-anchor="end">{{ctx.lineTotal}}</text> 
 		</g>
 	 
 		<g id="foot-template" width="588" height="520" font-size="24px">
