@@ -1,9 +1,13 @@
 <g>
 	<g locale ='zh'>
-		<g id="header-template"  width="588" height="360" font-size="24px">
+		<g id="header-template"  width="588" baseHeight="360" font-size="24px">
 			<text id="name" x="280" y="40" text-anchor="middle"   font-size="50px">东海证券</text>
 			<text x="280" relativeY="1" deltaY="40" text-anchor="middle" font-size="20px"> {{ctx.storeAddress}} </text>
-			<line x1="10" x2="578" relativeY="1" deltaY="10" stroke-dasharray="5,5" style="stroke:rgb(0,0,0);stroke-width:2" />
+
+			<text relativeY="1" x="140" deltaY="20"> </text>
+			<image relative="1" width="240" height="240" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAXIAAAFyAQMAAADS6sNKAAAABlBMVEX///8AAABVwtN+AAABsUlEQVR4nO2aUW7EIAxELeUAHClXz5FygJVcwB4g2UbtV6tZzXywAR77E9sYEzNJkiRJkv5HnnqZH8U9Bnd0Q4d4Xj46pQJ+rv/Rx1ZEPCffXvvR+MM2UGMsDEX8B/Ddy6u22j9zpfiP4quXz1D+C3sQT8D3n+7vM6iH0/8Q/8Uz8Cnwa4M58bz8sjKB3LkfKPFs/CUfQ1LWI7t7zoqn5Xvuhab29xOmsMPVxRPzFTCk2kvSbZY52mk3iWfk+wHK5vbdY0BzekyIZ+V91LbKep5KU3iL/+K5+KbYpfvKHflYPPkI7+I5+as9+DhZfRPKxfPxkWX3AmYD8ITK9X63B/FcfKTVPqK4XU0hrEU8LY+jsuHdwwoynjcd4pn5rH3Ms3E2CO8XiafjkYDFfg2jSP49/osn42EPsVU7qpjh6uXZfsQT8MvKUdk0w33Ew/lLPA2PF5/1TB+XEstGbuJ5+RiJUrWHKSzbt98PzeLZ+HmfWF75AY+PVNuxUjw/b3D/SM/m55fiP4WPS4lQSaMQT81jLu8jzozi6f7nJp6aT83a9AZ/R3gXT8xLkiRJkvSX+gK/irjYt4lywgAAAABJRU5ErkJggg=="></image>
+			<text relativeY="1" x="0" deltaY="250"> </text>
+
 	        <text x="10" relativeY="1" deltaY="40" text-anchor="start" > 单号:</text>
 	        <text relative="1" deltaX="565" text-anchor="end"> {{ctx.orderId}} </text>
 

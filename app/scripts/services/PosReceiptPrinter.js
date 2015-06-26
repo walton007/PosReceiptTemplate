@@ -105,7 +105,7 @@ angular.module('posReceiptTemplateApp').factory('POSReceiptPrinter', ['$timeout'
         console.log('after handle repeat text length', itemDoc.querySelectorAll('text').length);
 
         var removeElementArray = [];
-        $.each(itemDoc.querySelectorAll('text,line'), function(index, element) {
+        $.each(itemDoc.querySelectorAll('text,line, image'), function(index, element) {
             if (element.getAttribute('removeCond')) { 
                 expr = element.getAttribute('removeCond');
                 if (evalInContext(keyValues, expr)) {
@@ -136,7 +136,7 @@ angular.module('posReceiptTemplateApp').factory('POSReceiptPrinter', ['$timeout'
                 element.setAttribute('relativeY', 1);
             }
            
-            if (element.nodeName === 'text' && element.getAttribute('relativeX') && !!prevElement) {  
+            if (element.nodeName !== 'line' && element.getAttribute('relativeX') && !!prevElement) {  
                 deltaX = element.getAttribute('deltaX');
                 newX = parseInt(prevElement.getAttribute('x'))+parseInt(!!deltaX ? deltaX: 0);
                 element.setAttribute('x', newX);

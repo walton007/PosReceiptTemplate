@@ -7,7 +7,7 @@ angular.module('posReceiptTemplateApp').factory('templateService', ['$http', '$q
     serializer = new XMLSerializer(),
     cacheDocument = null ;
     var headContent = ["storeName", "Date", "employer", "customerName"],
-    headHeight = [360, 360-40,  360-40*2,  360-40*3, 360-40*4];
+    headHeight = [0, -40,  -40*2,  -40*3, -40*4];
     var config = {
       "titleImage": {
         "enable": true,
@@ -136,7 +136,8 @@ angular.module('posReceiptTemplateApp').factory('templateService', ['$http', '$q
             })
 
             //Set height change
-            _cacheDocument.querySelector('#header-template').setAttribute('height', headHeight[headDisableCnt]);
+            var baseHeight = _cacheDocument.querySelector('#header-template').getAttribute('baseHeight');
+            _cacheDocument.querySelector('#header-template').setAttribute('height', baseHeight+headHeight[headDisableCnt]);
             
             var finalTemplate = serializer.serializeToString(_cacheDocument);
             console.log(finalTemplate);
