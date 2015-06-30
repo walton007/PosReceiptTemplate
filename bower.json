@@ -13,7 +13,8 @@
     "angular-touch": "~1.2.0",
     "angular-route": "~1.2.0",
     "angular-ui-ace": "bower",
-    "angular-bootstrap": "~0.13.0"
+    "angular-bootstrap": "~0.13.0",
+    "file-saver": "*"
   },
   "devDependencies": {
     "angular-mocks": "~1.2.0",

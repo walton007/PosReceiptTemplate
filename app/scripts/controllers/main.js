@@ -67,6 +67,15 @@ angular.module('posReceiptTemplateApp')
 				$rootScope.clear();
 				$rootScope.refresh();
 			};
+
+			$rootScope.SaveConfig = function () {
+				templateService.getConfigMergedTemplate().then(function(templateContent) {
+					console.log(templateContent);
+					var blob = new Blob([templateContent], {type: "application/xml"});
+					saveAs(blob, "sampleTemplate.xml");
+				});
+				
+			};
 			
 		}
 	])
