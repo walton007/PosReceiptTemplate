@@ -22,7 +22,7 @@
 				 Save Config
 			</div>
 
-			<h3> Header </h3>
+			<h3> Title </h3>
 			<label class="checkbox">
 				<input type="checkbox" ng-model="config.titleImage.enable">
 				titleImage
@@ -32,7 +32,16 @@
 				titleLabel
 			</label>
 			<label class="checkbox">
-				<input type="checkbox" ng-model="config.storeName.enable">
+				<input type="checkbox" ng-model="config.address.enable">
+				address
+			</label>
+			<h3> Header </h3>
+			<label class="checkbox">
+				<input type="checkbox" disabled ng-model="config.orderID.enable">
+				order id (required)
+			</label>
+			<label class="checkbox">
+				<input type="checkbox" disabled ng-model="config.storeName.enable">
 				storeName
 			</label>
 			<label class="checkbox">
@@ -41,30 +50,45 @@
 			</label>
 			<label class="checkbox">
 				<input type="checkbox" ng-model="config.employer.enable">
-				employer
+				Cashier
 			</label>
 			<label class="checkbox">
 				<input type="checkbox" ng-model="config.customerName.enable">
 				customerName
 			</label>
 			<div class="row">
-				<h3> productLine </h3>
-				 
+				<h3> productLine (suggest 5 fields at most) </h3>
+				<label class="checkbox">
+					<input type="checkbox" disabled ng-model="config.productLine_productId.enable">
+					Code(required)
+				</label>
 				<label class="checkbox">
 					<input type="checkbox" ng-model="config.productLine_standPrice.enable">
 					standPrice
+				</label>
+				<label class="checkbox">
+					<input type="checkbox" ng-model="config.productLine_price.enable">
+					sales price
 				</label>
 				<label class="checkbox">
 					<input type="checkbox" ng-model="config.productLine_quantity.enable">
 					quantity
 				</label>
 				<label class="checkbox">
-					<input type="checkbox" ng-model="config.productLine_lineTotal.enable">
-					line total
+					<input type="checkbox" ng-model="config.productLine_lineDiscountPercentage.enable">
+					Line Discount Percentage
+				</label>
+				<label class="checkbox">
+					<input type="checkbox" ng-model="config.productLine_lineDiscount.enable">
+					Line Discount 
+				</label>
+				<label class="checkbox">
+					<input type="checkbox" disabled ng-model="config.productLine_lineTotal.enable">
+					line total (Required)
 				</label>
 			</div>
 
-			<h3> Order Total </h3>
+			<h3> Document Total </h3>
 			<label class="checkbox">
 				<input type="checkbox" ng-model="config.subTotal.enable">
 				Total Before Discount
@@ -93,7 +117,22 @@
 				<input type="checkbox" ng-model="config.paymentMethod.enable">
 				paymentMethod 
 			</label>
+			<h3> Footer  </h3>
+			<label class="checkbox">
+				<input type="checkbox" ng-model="config.annotation.enable">
+				Footer Remark
 
+				<div class="row" ng-repeat="data in config.annotation.content track by $index" >
+					<input ng-model="config.annotation.content[$index]" maxlength="40">
+					</input>
+				</div>
+
+				<div class="row">
+					 {{config.annotation.content | json}}
+				</div>
+
+				
+			</label>
 		</div>
 	</div>
 </div>

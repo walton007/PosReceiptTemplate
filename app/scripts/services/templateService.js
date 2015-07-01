@@ -9,72 +9,86 @@ angular.module('posReceiptTemplateApp').factory('templateService', ['$http', '$q
     var headContent = ["storeName", "Date", "employer", "customerName"],
     headHeight = [0, -40,  -40*2,  -40*3, -40*4];
     var config = {
-      "titleImage": {
-        "enable": true,
-        "dataurl": null
-      },
-      "titleLabel": {
-        "enable": false,
-        "text": null
-      },
-      "storeName": {
-        "enable": true
-      },
-      "Date": {
-        "enable": true
-      },
-      "employer": {
-        "enable": true
-      },
-      "customerName": {
-        "enable": true
-      },
+            "titleImage": {
+              "enable": false,
+              "dataurl": null
+            },
+            "titleLabel": {
+              "enable": true,
+              "text": 'hello'
+            },
+            "address": {
+              "enable": false,
+              "text": null
+            },
+            "orderID": {
+              "enable": true
+            },
+            "storeName": {
+              "enable": true
+            },
+            "Date": {
+              "enable": true
+            },
+            "employer": {
+              "enable": true
+            },
+            "customerName": {
+              "enable": true
+            },
 
-      "productLine_productId": {
-        "enable": true
-      },
-      "productLine_itemName": {
-        "enable": true
-      },
-      "productLine_standPrice": {
-        "enable": true
-      },
-      "productLine_price": {
-        "enable": true
-      },
-      "productLine_quantity": {
-        "enable": true
-      },
-      "productLine_lineTotal": {
-        "enable": true
-      },
- 
-      "subTotal": {
-        "enable": false
-      },
-      "discountPercentage": {
-        "enable": false
-      },
-      "discountSum": {
-        "enable": false
-      },
-      "preTaxSum": {
-        "enable": false
-      },
-      "tax": {
-        "enable": false
-      },
-      "finalSum": {
-        "enable": false
-      },
-      "paymentMethod": {
-        "enable": false
-      },
-      "annotation": {
-        "enable": false,
-        "content": []
-      }
-    };
+            "productLine_productId": {
+              "enable": true
+            },
+            "productLine_itemName": {
+              "enable": true
+            },
+            "productLine_standPrice": {
+              "enable": true
+            },
+            "productLine_price": {
+              "enable": true
+            },
+            "productLine_quantity": {
+              "enable": true
+            },
+            "productLine_lineDiscountPercentage": {
+              "enable": true
+            },
+
+            "productLine_lineDiscount": {
+              "enable": true
+            },
+            "productLine_lineTotal": {
+              "enable": true
+            },
+       
+            "subTotal": {
+              "enable": true
+            },
+            "discountPercentage": {
+              "enable": true
+            },
+            "discountSum": {
+              "enable": true
+            },
+            "preTaxSum": {
+              "enable": true
+            },
+            "tax": {
+              "enable": true
+            },
+            "finalSum": {
+              "enable": false
+            },
+            "paymentMethod": {
+              "enable": false
+            },
+            "annotation": {
+              "enable": true,
+              "content": ['a', 'b', 'c']
+            }
+          };
 
     var defaultConfigTemplate = null;
     function getDefaultConfigTemplate() {
